@@ -38,12 +38,13 @@ ModbusSerial mb;
 #define NB_CHANELS 8
 
 //OUTPUT SWITCH
-const uint8_t PINS_RELAY[NB_CHANELS]  { PB3, PB4, PA12, PA15, PA11, PA8, PB1, PB0};
-const uint8_t ADDRS_RELAY[NB_CHANELS] { 1, 2, 3, 4, 5, 6, 7, 8};
+const uint8_t PINS_RELAY[NB_CHANELS]    { PB3, PB4, PA12, PA15, PA11, PA8, PB1, PB0};
+const uint8_t ADDRS_RELAY[NB_CHANELS]   { 1, 2, 3, 4, 5, 6, 7, 8};
 
 //INPUT SWITCH
-const uint8_t PINS_BUTTON[NB_CHANELS]       { PA0, PA1, PA2 , PA3 , PA4 , PA_5 , PA6 , PA7 };
-const uint8_t BUTTONS_MODS[NB_CHANELS]    { 0, 1, 1, 1, 1, 1, 1, 1}; //Mode (0: interrupteur à bascule, 1: interrupteur à pression, 2: interrupteur à relachement, autre : spéciale)
+const uint8_t PINS_BUTTON[NB_CHANELS]   { PA0, PA1, PA2 , PA3 , PA4 , PA_5 , PA6 , PA7 };
+const uint8_t BUTTONS_MODS[NB_CHANELS]  { 1, 1, 1, 1, 1, 1, 1, 1}; //Mode (0: interrupteur à bascule, 1: interrupteur à pression, 2: interrupteur à relachement, autre : spéciale)
+const uint8_t ADDRS_BUTTON[NB_CHANELS]  { 1, 2, 3, 4, 5, 6, 7, 8};
 uint8_t buttons_read[NB_CHANELS];
 bool buttons_state[NB_CHANELS];
 
@@ -64,8 +65,10 @@ void setup()
     for (uint8_t i = 0; i < NB_CHANELS; i++)
     {
         //SWITCH
+        mb.addIsts(ADDRS_BUTTON[i], 0);
         pinMode(PINS_BUTTON[i], INPUT);
         buttons_state[i] = digitalRead(PINS_BUTTON[i]);
+
 
         //RELAY
         mb.addCoil(ADDRS_RELAY[i], 0);
@@ -102,6 +105,7 @@ void loop()
                 #endif
 
                 buttons_state[i] = buttons_read[i] > 128;
+                mb.Ists(ADDRS_BUTTON[i], buttons_state[i]);
 
                 if ( ( BUTTONS_MODS[i] == 0 )
                   || ( BUTTONS_MODS[i] == 1 && buttons_state[i] == HIGH)

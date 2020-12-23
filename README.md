@@ -52,13 +52,15 @@ Build and upload with a ST-Link
 
 ### Table
 
-Coil 1-8 relay state (read/write)
+- Coil 1-8 relay state (read/write)
+- Input Status 1-8 switch state (read)
 
 ### Function support
 
 - Read coils (0x01)
+- Read Input Status (0x2)
 - Write single coil (0x05)
-- Write multible coil (0x0f)
+- Write multiple coils (0x0f)
 
 
 
