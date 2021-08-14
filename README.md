@@ -47,6 +47,12 @@ open `relaySTM32/relaySTM32.ino`in arduino ide
 
 Build and upload with a ST-Link
 
+if you have an error "Warning: The core is locked up"
+
+- Open STM32CubeProgrammer
+- Click "OB" in the left bar
+- Set "Read Out Protection => RPD" to "AA"
+
 
 ## Modbus
 
